@@ -4,10 +4,9 @@ import (
 	"math/rand"
 )
 
-
 ////////////////////////////////////////// OOPStudent //////////////////////////////////////////////
 type OOPsStudent struct {
-	Average int
+	Average  int
 	Concepts []string
 }
 
@@ -30,7 +29,7 @@ func (s *OOPsStudent) LearnGolang() int {
 // Functions are accessible throughout program, not attached to objects.
 
 type FunctioningStudent struct {
-	Average int
+	Average  int
 	Concepts []string
 }
 
@@ -51,7 +50,7 @@ func calculateTotal(skills []string) int {
 }
 
 func calculateAverage(total int, number int) int {
-	return total / number;
+	return total / number
 }
 
 ///////////////////////////////////////// RecursiveStudent /////////////////////////////////////////
@@ -60,7 +59,7 @@ func calculateAverage(total int, number int) int {
 // programming, as no mutable counters or data objects are required.
 
 type RecursiveStudent struct {
-	Average int
+	Average  int
 	Concepts []string
 }
 
@@ -71,10 +70,10 @@ func (s *RecursiveStudent) LearnGolang() int {
 
 //calculates a grade for each skill, adding this grade to sum of total for remainder of slice.
 func calculateTotalRecursively(index int, skills []string) int {
-	if (index >= len(skills)) {
+	if index >= len(skills) {
 		return 0
 	}
-	return rand.Intn(50) + 50 + calculateTotalRecursively(index + 1, skills)
+	return rand.Intn(50) + 50 + calculateTotalRecursively(index+1, skills)
 }
 
 ////////////////////////////////////////// TailStudent /////////////////////////////////////////////
@@ -84,7 +83,7 @@ func calculateTotalRecursively(index int, skills []string) int {
 // a stack element can be replaced rather than added to.
 
 type TailStudent struct {
-	Average int
+	Average  int
 	Concepts []string
 }
 
@@ -95,17 +94,17 @@ func (s *TailStudent) LearnGolang() int {
 
 //calculates a grade for each skill, passing the new index _and_ runningTotal to next interation.
 func calculateTotalTailwise(index int, runningTotal int, skills []string) int {
-	if (index >= len(skills)) {
+	if index >= len(skills) {
 		return runningTotal
 	}
 	score := rand.Intn(50) + 50
-	return calculateTotalTailwise(index + 1, runningTotal + score, skills)
+	return calculateTotalTailwise(index+1, runningTotal+score, skills)
 }
 
 //////////////////////////////////////// ChannelingStudent /////////////////////////////////////////
 
 type ChannelingStudent struct {
-	Average int
+	Average  int
 	Concepts []string
 }
 
@@ -118,11 +117,11 @@ func (s *ChannelingStudent) LearnGolang() int {
 
 //calculates a grade for each skill, passing new total through a channel.
 func calculateTotalChanneling(index, runningTotal int, result chan int, skills []string) {
-	if (index >= len(skills)) {
+	if index >= len(skills) {
 		result <- runningTotal
 	}
 	score := rand.Intn(50) + 50
-	go calculateTotalChanneling(index + 1, runningTotal + score, result, skills)
+	go calculateTotalChanneling(index+1, runningTotal+score, result, skills)
 }
 
 ///////////////////////////////////////// HigherOrderStudent ///////////////////////////////////////
@@ -155,7 +154,7 @@ func Map(vs []string, f func(string) int) []int {
 }
 
 func Reduce(vs []int, f func(int, int) int) int {
-	total := 0;
+	total := 0
 	for _, v := range vs {
 		total = f(total, v)
 	}

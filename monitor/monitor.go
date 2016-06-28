@@ -1,6 +1,6 @@
 package monitor
 
-import(
+import (
 	"github.com/kristenfelch/go-present/demo"
 	"log"
 	"time"

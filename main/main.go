@@ -8,7 +8,7 @@ import (
 
 /*
   Calculate class averages based on several different paradigms.
- */
+*/
 func main() {
 	// Utilizing an OOP system - mutating data, for loops, no higher order functions.
 	demo.Decorate(reportcard.OOPReportCard{}, monitor.Monitor("OOP Class Average")).Run()

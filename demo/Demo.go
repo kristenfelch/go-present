@@ -4,9 +4,9 @@ type Runner interface {
 	Run()
 }
 
-type RunnerFunc func() ()
+type RunnerFunc func()
 
-func (f RunnerFunc) Run() () {
+func (f RunnerFunc) Run() {
 	f()
 	return
 }

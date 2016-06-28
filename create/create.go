@@ -12,7 +12,7 @@ func create() {
 	demo.Decorate(UpdateStringRunner{}, monitor.Monitor("UpdateStringRunner")).Run()
 }
 
-type CreateArrayRunner struct {}
+type CreateArrayRunner struct{}
 
 func (CreateArrayRunner) Run() {
 	for i := 0; i < 1000000; i++ {
@@ -22,7 +22,7 @@ func (CreateArrayRunner) Run() {
 	}
 }
 
-type UpdateArrayRunner struct {}
+type UpdateArrayRunner struct{}
 
 func (UpdateArrayRunner) Run() {
 	for i := 0; i < 1000000; i++ {
@@ -31,7 +31,7 @@ func (UpdateArrayRunner) Run() {
 	}
 }
 
-type CreateStringRunner struct {}
+type CreateStringRunner struct{}
 
 func (CreateStringRunner) Run() {
 	for i := 0; i < 1000000; i++ {
@@ -40,7 +40,7 @@ func (CreateStringRunner) Run() {
 	}
 }
 
-type UpdateStringRunner struct {}
+type UpdateStringRunner struct{}
 
 func (UpdateStringRunner) Run() {
 	for i := 0; i < 1000000; i++ {

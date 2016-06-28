@@ -1,6 +1,6 @@
 package reportcard
 
-import(
+import (
 	"fmt"
 	"github.com/kristenfelch/go-present/student"
 	"math/rand"
@@ -10,14 +10,14 @@ import(
  ReportCard calculates GPA of all students learning GoLang and
  prints out the overall class/course average.
  There are for this use case, 1M students learning Golang.
- */
+*/
 
 /////////////////////////////////////////// OOPReportCard///////////////////////////////////////////
 
-type OOPReportCard struct {}
+type OOPReportCard struct{}
 
 func (OOPReportCard) Run() {
-	classTotal := 0;
+	classTotal := 0
 	//skills that students may opt to learn.
 	skills := []string{
 		"Channels",
@@ -26,12 +26,12 @@ func (OOPReportCard) Run() {
 		"Structs",
 		"Slices"}
 	for i := 0; i < 10000000; i++ {
-		numberOfCourses := rand.Intn(4) + 1;
-		coursesCompleted := skills[0: numberOfCourses];
-		student := student.OOPsStudent{Concepts : coursesCompleted}
+		numberOfCourses := rand.Intn(4) + 1
+		coursesCompleted := skills[0:numberOfCourses]
+		student := student.OOPsStudent{Concepts: coursesCompleted}
 		classTotal = classTotal + student.LearnGolang()
 	}
-	fmt.Printf("Final Class Average: %d\n", classTotal / 1000000)
+	fmt.Printf("Final Class Average: %d\n", classTotal/1000000)
 }
 
 //////////////////////////////////////// FunctioningReportCard //////////////////////////////////////
@@ -39,7 +39,7 @@ func (OOPReportCard) Run() {
 // Computation as the evaluation of mathematical functions.
 // Functions are accessible throughout program, not attached to objects.
 
-type FunctioningReportCard struct {}
+type FunctioningReportCard struct{}
 
 func (FunctioningReportCard) Run() {
 	skills := []string{
@@ -51,7 +51,7 @@ func (FunctioningReportCard) Run() {
 	classTotal := 0
 	for i := 0; i < 10000000; i++ {
 		//abstract out functionality for determining skills studied for each student
-		studentGPA := calculateStudentGPA(skills);
+		studentGPA := calculateStudentGPA(skills)
 		classTotal = classTotal + studentGPA
 	}
 	//abstract out average calculation
@@ -60,9 +60,9 @@ func (FunctioningReportCard) Run() {
 
 //chooses skills, gets grades, and calculates student GPA
 func calculateStudentGPA(skills []string) int {
-	numberOfSkills := rand.Intn(4) + 1;
-	skillsLearned := skills[0: numberOfSkills];
-	student := student.FunctioningStudent{Concepts : skillsLearned}
+	numberOfSkills := rand.Intn(4) + 1
+	skillsLearned := skills[0:numberOfSkills]
+	student := student.FunctioningStudent{Concepts: skillsLearned}
 	return student.LearnGolang()
 }
 
@@ -80,7 +80,7 @@ func calculateAverage(sum, length int) int {
 // Variable values cannot be changed.
 // Iteration cannot be used since by definition we have at least a counter.
 
-type RecursiveReportCard struct {}
+type RecursiveReportCard struct{}
 
 func (RecursiveReportCard) Run() {
 	skills := []string{
@@ -95,17 +95,17 @@ func (RecursiveReportCard) Run() {
 }
 
 func recursivelyCalculateClassTotal(index int, skills []string) int {
-	if (index >= 10000000) {
+	if index >= 10000000 {
 		return 0
 	}
-	return calculateStudentGPARecursive(skills) + recursivelyCalculateClassTotal(index + 1, skills)
+	return calculateStudentGPARecursive(skills) + recursivelyCalculateClassTotal(index+1, skills)
 }
 
 func calculateStudentGPARecursive(skills []string) int {
-	numberOfSkills := rand.Intn(4) + 1;
-	skillsLearned := skills[0: numberOfSkills];
+	numberOfSkills := rand.Intn(4) + 1
+	skillsLearned := skills[0:numberOfSkills]
 	//only difference here is type of student
-	student := student.RecursiveStudent{Concepts : skillsLearned}
+	student := student.RecursiveStudent{Concepts: skillsLearned}
 	return student.LearnGolang()
 }
 
@@ -117,7 +117,7 @@ func calculateStudentGPARecursive(skills []string) int {
 
 // Replace recursion with tail recursion in hopes of avoiding stack overflow.
 
-type TailingReportCard struct {}
+type TailingReportCard struct{}
 
 func (TailingReportCard) Run() {
 	skills := []string{
@@ -132,30 +132,29 @@ func (TailingReportCard) Run() {
 }
 
 func tailCalculateClassTotal(index, runningTotal int, skills []string) int {
-	if (index >= 10000000) {
+	if index >= 10000000 {
 		return runningTotal
 	}
 	studentGPA := calculateStudentGPATailwise(skills)
-	return tailCalculateClassTotal(index + 1, runningTotal + studentGPA, skills)
+	return tailCalculateClassTotal(index+1, runningTotal+studentGPA, skills)
 }
 
 // only difference is we are using a TailStudent
 func calculateStudentGPATailwise(skills []string) int {
-	numberOfSkills := rand.Intn(4) + 1;
-	skillsLearned := skills[0: numberOfSkills];
+	numberOfSkills := rand.Intn(4) + 1
+	skillsLearned := skills[0:numberOfSkills]
 	//only difference here is type of student
-	student := student.TailStudent{Concepts : skillsLearned}
+	student := student.TailStudent{Concepts: skillsLearned}
 	return student.LearnGolang()
 }
 
 //Tail recursion optimization is not supported in Golang. So... is there any way around this??
 
-
 //////////////////////////////////////// ChannelingReportCard ///////////////////////////////////////
 
 // Let's imitate tail recursion by using a channel!  Goroutines can be spawned  for each new
 // recursive step, and the final result is awaited by waiting on a result placed in a channel.
-type ChannelingReportCard struct {}
+type ChannelingReportCard struct{}
 
 func (ChannelingReportCard) Run() {
 	skills := []string{
@@ -166,25 +165,25 @@ func (ChannelingReportCard) Run() {
 		"Slices"}
 	result := make(chan int)
 	channelCalculateClassTotal(0, 0, result, skills)
-	classTotal := <- result
+	classTotal := <-result
 	//abstract out average calculation
 	fmt.Printf("Final Class Average: %d\n", calculateAverage(classTotal, 1000000))
 }
 
 func channelCalculateClassTotal(index, runningTotal int, result chan int, skills []string) {
-	if (index >= 1000000) {
+	if index >= 1000000 {
 		result <- runningTotal
 	}
 	studentGPA := calculateStudentGPAChanneling(skills)
-	go channelCalculateClassTotal(index + 1, runningTotal + studentGPA, result, skills)
+	go channelCalculateClassTotal(index+1, runningTotal+studentGPA, result, skills)
 }
 
 // only difference is we are using a ChannelingStudent
 func calculateStudentGPAChanneling(skills []string) int {
-	numberOfSkills := rand.Intn(4) + 1;
-	skillsLearned := skills[0: numberOfSkills];
+	numberOfSkills := rand.Intn(4) + 1
+	skillsLearned := skills[0:numberOfSkills]
 	//only difference here is type of student
-	student := student.ChannelingStudent{Concepts : skillsLearned}
+	student := student.ChannelingStudent{Concepts: skillsLearned}
 	return student.LearnGolang()
 }
 
@@ -197,7 +196,7 @@ func calculateStudentGPAChanneling(skills []string) int {
 // us to forget our object abstraction and focus on behavior encapsulated into functions.
 // Higher order, pure functions are the goal.
 
-type HigherOrderReportCard struct {}
+type HigherOrderReportCard struct{}
 
 func (HigherOrderReportCard) Run() {
 	skills := []string{
@@ -223,7 +222,7 @@ func (HigherOrderReportCard) Run() {
 
 //chooses skills, gets grades, and calculates student GPA
 func calculateHigherOrderStudentGPA(skills []string) int {
-	numberOfSkills := rand.Intn(4) + 1;
-	skillsLearned := skills[0: numberOfSkills];
+	numberOfSkills := rand.Intn(4) + 1
+	skillsLearned := skills[0:numberOfSkills]
 	return student.LearnGolang(skillsLearned)
 }
