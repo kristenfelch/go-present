@@ -1,4 +1,4 @@
-package reportcard
+package team
 
 import (
 	"fmt"
@@ -7,62 +7,66 @@ import (
 )
 
 /*
- ReportCard calculates GPA of all students learning GoLang and
- prints out the overall class/course average.
- There are for this use case, 1M students learning Golang.
+ Team calculates GPA of all students learning GoLang and
+ prints out the overall team average.
+ There are for this use case, 10M students learning Golang (For the purposes of performance analysis)
 */
 
-/////////////////////////////////////////// OOPReportCard///////////////////////////////////////////
+/////////////////////////////////////////// OOPTeam///////////////////////////////////////////
 
-type OOPReportCard struct{}
+type OOPTeam struct{}
 
-func (OOPReportCard) Run() {
-	classTotal := 0
-	//skills that students may opt to learn.
+func (OOPTeam) Run() {
+	teamTotal := 0
+	//skills that students may opt to learn, slice.
 	skills := []string{
 		"Channels",
 		"Types",
 		"Pointers",
 		"Structs",
 		"Slices"}
+	//as 10M students to learn Golang
 	for i := 0; i < 10000000; i++ {
-		numberOfCourses := rand.Intn(4) + 1
-		coursesCompleted := skills[0:numberOfCourses]
-		student := student.OOPsStudent{Concepts: coursesCompleted}
-		classTotal = classTotal + student.LearnGolang()
+		numberOfSkills := rand.Intn(4) + 1
+		skillsCompleted := skills[0:numberOfSkills]
+		student := student.OOPsStudent{Skills: skillsCompleted}
+		teamTotal = teamTotal + student.LearnGolang()
 	}
-	fmt.Printf("Final Class Average: %d\n", classTotal/1000000)
+	fmt.Printf("OOP Team Average: %d\n", teamTotal/10000000)
 }
 
-//////////////////////////////////////// FunctioningReportCard //////////////////////////////////////
+//Again, we see the OOP paradigm of attaching the method to the object, we see instantiation of
+//new objects for each student in our 10M.
+
+//////////////////////////////////////// FunctioningTeam //////////////////////////////////////
 
 // Computation as the evaluation of mathematical functions.
 // Functions are accessible throughout program, not attached to objects.
 
-type FunctioningReportCard struct{}
+type FunctioningTeam struct{}
 
-func (FunctioningReportCard) Run() {
+func (FunctioningTeam) Run() {
 	skills := []string{
 		"Channels",
 		"Types",
 		"Pointers",
 		"Structs",
 		"Slices"}
-	classTotal := 0
+	teamTotal := 0
 	for i := 0; i < 10000000; i++ {
 		//abstract out functionality for determining skills studied for each student
 		studentGPA := calculateStudentGPA(skills)
-		classTotal = classTotal + studentGPA
+		teamTotal = teamTotal + studentGPA
 	}
 	//abstract out average calculation
-	fmt.Printf("Final Class Average: %d\n", calculateAverage(classTotal, 1000000))
+	fmt.Printf("Functioning Team Average: %d\n", calculateAverage(teamTotal, 10000000))
 }
 
 //chooses skills, gets grades, and calculates student GPA
 func calculateStudentGPA(skills []string) int {
 	numberOfSkills := rand.Intn(4) + 1
 	skillsLearned := skills[0:numberOfSkills]
-	student := student.FunctioningStudent{Concepts: skillsLearned}
+	student := student.FunctioningStudent{Skills: skillsLearned}
 	return student.LearnGolang()
 }
 
@@ -74,38 +78,38 @@ func calculateAverage(sum, length int) int {
 //pretty much the same.  But we started honing in on a new pattern of focusing on functions rather
 //than objects.
 
-//////////////////////////////////////// RecursiveReportCard ///////////////////////////////////////
+//////////////////////////////////////// RecursiveTeam ///////////////////////////////////////
 
 // Immutable State.
 // Variable values cannot be changed.
 // Iteration cannot be used since by definition we have at least a counter.
 
-type RecursiveReportCard struct{}
+type RecursiveTeam struct{}
 
-func (RecursiveReportCard) Run() {
+func (RecursiveTeam) Run() {
 	skills := []string{
 		"Channels",
 		"Types",
 		"Pointers",
 		"Structs",
 		"Slices"}
-	classTotal := recursivelyCalculateClassTotal(0, skills)
+	teamTotal := recursivelyCalculateTeamTotal(0, skills)
 	//abstract out average calculation
-	fmt.Printf("Final Class Average: %d\n", calculateAverage(classTotal, 1000000))
+	fmt.Printf("Recursive Team Average: %d\n", calculateAverage(teamTotal, 10000000))
 }
 
-func recursivelyCalculateClassTotal(index int, skills []string) int {
+func recursivelyCalculateTeamTotal(index int, skills []string) int {
 	if index >= 10000000 {
 		return 0
 	}
-	return calculateStudentGPARecursive(skills) + recursivelyCalculateClassTotal(index+1, skills)
+	return calculateStudentGPARecursive(skills) + recursivelyCalculateTeamTotal(index+1, skills)
 }
 
 func calculateStudentGPARecursive(skills []string) int {
 	numberOfSkills := rand.Intn(4) + 1
 	skillsLearned := skills[0:numberOfSkills]
 	//only difference here is type of student
-	student := student.RecursiveStudent{Concepts: skillsLearned}
+	student := student.RecursiveStudent{Skills: skillsLearned}
 	return student.LearnGolang()
 }
 
@@ -113,30 +117,30 @@ func calculateStudentGPARecursive(skills []string) int {
 // For some algorithms, being able to recurse in multiple places within the function are possible.
 // However, we obviously can't do this because of our stack issue!
 
-//////////////////////////////////////// TailingReportCard //////[[/////////////////////////////////
+//////////////////////////////////////// TailingTeam //////[[/////////////////////////////////
 
 // Replace recursion with tail recursion in hopes of avoiding stack overflow.
 
-type TailingReportCard struct{}
+type TailingTeam struct{}
 
-func (TailingReportCard) Run() {
+func (TailingTeam) Run() {
 	skills := []string{
 		"Channels",
 		"Types",
 		"Pointers",
 		"Structs",
 		"Slices"}
-	classTotal := tailCalculateClassTotal(0, 0, skills)
+	teamTotal := tailCalculateTeamTotal(0, 0, skills)
 	//abstract out average calculation
-	fmt.Printf("Final Class Average: %d\n", calculateAverage(classTotal, 1000000))
+	fmt.Printf("Final Team Average: %d\n", calculateAverage(teamTotal, 10000000))
 }
 
-func tailCalculateClassTotal(index, runningTotal int, skills []string) int {
+func tailCalculateTeamTotal(index, runningTotal int, skills []string) int {
 	if index >= 10000000 {
 		return runningTotal
 	}
 	studentGPA := calculateStudentGPATailwise(skills)
-	return tailCalculateClassTotal(index+1, runningTotal+studentGPA, skills)
+	return tailCalculateTeamTotal(index+1, runningTotal+studentGPA, skills)
 }
 
 // only difference is we are using a TailStudent
@@ -144,19 +148,19 @@ func calculateStudentGPATailwise(skills []string) int {
 	numberOfSkills := rand.Intn(4) + 1
 	skillsLearned := skills[0:numberOfSkills]
 	//only difference here is type of student
-	student := student.TailStudent{Concepts: skillsLearned}
+	student := student.TailStudent{Skills: skillsLearned}
 	return student.LearnGolang()
 }
 
 //Tail recursion optimization is not supported in Golang. So... is there any way around this??
 
-//////////////////////////////////////// ChannelingReportCard ///////////////////////////////////////
+//////////////////////////////////////// ChannelingTeam ///////////////////////////////////////
 
 // Let's imitate tail recursion by using a channel!  Goroutines can be spawned  for each new
 // recursive step, and the final result is awaited by waiting on a result placed in a channel.
-type ChannelingReportCard struct{}
+type ChannelingTeam struct{}
 
-func (ChannelingReportCard) Run() {
+func (ChannelingTeam) Run() {
 	skills := []string{
 		"Channels",
 		"Types",
@@ -164,18 +168,18 @@ func (ChannelingReportCard) Run() {
 		"Structs",
 		"Slices"}
 	result := make(chan int)
-	channelCalculateClassTotal(0, 0, result, skills)
-	classTotal := <-result
+	channelCalculateTeamTotal(0, 0, result, skills)
+	teamTotal := <-result
 	//abstract out average calculation
-	fmt.Printf("Final Class Average: %d\n", calculateAverage(classTotal, 1000000))
+	fmt.Printf("Channeling Team Average: %d\n", calculateAverage(teamTotal, 10000000))
 }
 
-func channelCalculateClassTotal(index, runningTotal int, result chan int, skills []string) {
-	if index >= 1000000 {
+func channelCalculateTeamTotal(index, runningTotal int, result chan int, skills []string) {
+	if index >= 10000000 {
 		result <- runningTotal
 	}
 	studentGPA := calculateStudentGPAChanneling(skills)
-	go channelCalculateClassTotal(index+1, runningTotal+studentGPA, result, skills)
+	go channelCalculateTeamTotal(index+1, runningTotal+studentGPA, result, skills)
 }
 
 // only difference is we are using a ChannelingStudent
@@ -183,30 +187,32 @@ func calculateStudentGPAChanneling(skills []string) int {
 	numberOfSkills := rand.Intn(4) + 1
 	skillsLearned := skills[0:numberOfSkills]
 	//only difference here is type of student
-	student := student.ChannelingStudent{Concepts: skillsLearned}
+	student := student.ChannelingStudent{Skills: skillsLearned}
 	return student.LearnGolang()
 }
 
-// OK so we CAN make this functional.  But, no it's not worth it in terms of performance.
-// This is where we would have to choose practicality over purity.
+// OK so we CAN make this functional.  But, is it worth it in terms of performance?
+// Spawning routines has the cost of scheduling built in.
 
-/////////////////////////////////// HigherOrderReportCard //////////////////////////////////////////
+/////////////////////////////////// HigherOrderTeam //////////////////////////////////////////
 
 // Let's get down to focusing on functions - as arguments and return results.  This will allow
 // us to forget our object abstraction and focus on behavior encapsulated into functions.
 // Higher order, pure functions are the goal.
 
-type HigherOrderReportCard struct{}
+type HigherOrderTeam struct{}
 
-func (HigherOrderReportCard) Run() {
-	skills := []string{
-		"Channels",
-		"Types",
-		"Pointers",
-		"Structs",
-		"Slices"}
+var skills = []string{
+	"Channels",
+	"Types",
+	"Pointers",
+	"Structs",
+	"Slices"}
 
-	classAverage := calculateAverage(
+func (HigherOrderTeam) Run() {
+
+	teamAverage := calculateAverage(
+		//note ability to abstract out and reuse functions.
 		student.Reduce(
 			student.Map(make([]string, 10000000),
 				func(string) int {
@@ -217,7 +223,7 @@ func (HigherOrderReportCard) Run() {
 			}),
 		10000000)
 	//abstract out average calculation
-	fmt.Printf("Final Class Average: %d\n", classAverage)
+	fmt.Printf("Final Team Average: %d\n", teamAverage)
 }
 
 //chooses skills, gets grades, and calculates student GPA

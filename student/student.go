@@ -6,22 +6,27 @@ import (
 
 ////////////////////////////////////////// OOPStudent //////////////////////////////////////////////
 type OOPsStudent struct {
-	Average  int
-	Concepts []string
+	//Grade point average of all Golang skills
+	Average int
+	//Skills that this student learned.
+	Skills []string
 }
 
 func (s *OOPsStudent) LearnGolang() int {
 	sum := 0
 
 	//obtain grade for each skill
-	for _ = range s.Concepts {
+	for _ = range s.Skills {
 		grade := rand.Intn(50) + 50
 		sum = sum + grade
 	}
 	//calculate GPA for student
-	s.Average = sum / len(s.Concepts)
+	s.Average = sum / len(s.Skills)
 	return s.Average
 }
+
+//Object oriented paradigm of attaching methods and attributes/fields to an object,
+//capturing the data and the functionality in the same place!
 
 ///////////////////////////////////////// FunctioningStudent ///////////////////////////////////////
 
@@ -29,13 +34,13 @@ func (s *OOPsStudent) LearnGolang() int {
 // Functions are accessible throughout program, not attached to objects.
 
 type FunctioningStudent struct {
-	Average  int
-	Concepts []string
+	Average int
+	Skills  []string
 }
 
 func (s *FunctioningStudent) LearnGolang() int {
-	studentTotal := calculateTotal(s.Concepts)
-	return calculateAverage(studentTotal, len(s.Concepts))
+	studentTotal := calculateTotal(s.Skills)
+	return calculateAverage(studentTotal, len(s.Skills))
 }
 
 func calculateTotal(skills []string) int {
@@ -59,13 +64,13 @@ func calculateAverage(total int, number int) int {
 // programming, as no mutable counters or data objects are required.
 
 type RecursiveStudent struct {
-	Average  int
-	Concepts []string
+	Average int
+	Skills  []string
 }
 
 func (s *RecursiveStudent) LearnGolang() int {
-	studentTotal := calculateTotalRecursively(0, s.Concepts)
-	return calculateAverage(studentTotal, len(s.Concepts))
+	studentTotal := calculateTotalRecursively(0, s.Skills)
+	return calculateAverage(studentTotal, len(s.Skills))
 }
 
 //calculates a grade for each skill, adding this grade to sum of total for remainder of slice.
@@ -83,13 +88,13 @@ func calculateTotalRecursively(index int, skills []string) int {
 // a stack element can be replaced rather than added to.
 
 type TailStudent struct {
-	Average  int
-	Concepts []string
+	Average int
+	Skills  []string
 }
 
 func (s *TailStudent) LearnGolang() int {
-	studentTotal := calculateTotalTailwise(0, 0, s.Concepts)
-	return calculateAverage(studentTotal, len(s.Concepts))
+	studentTotal := calculateTotalTailwise(0, 0, s.Skills)
+	return calculateAverage(studentTotal, len(s.Skills))
 }
 
 //calculates a grade for each skill, passing the new index _and_ runningTotal to next interation.
@@ -103,16 +108,19 @@ func calculateTotalTailwise(index int, runningTotal int, skills []string) int {
 
 //////////////////////////////////////// ChannelingStudent /////////////////////////////////////////
 
+// Let's imitate tail recursion by using a channel!  Goroutines can be spawned  for each new
+// recursive step, and the final result is awaited by waiting on a result placed in a channel.
+
 type ChannelingStudent struct {
-	Average  int
-	Concepts []string
+	Average int
+	Skills  []string
 }
 
 func (s *ChannelingStudent) LearnGolang() int {
 	result := make(chan int)
-	calculateTotalChanneling(0, 0, result, s.Concepts)
+	calculateTotalChanneling(0, 0, result, s.Skills)
 	studentTotal := <-result
-	return calculateAverage(studentTotal, len(s.Concepts))
+	return calculateAverage(studentTotal, len(s.Skills))
 }
 
 //calculates a grade for each skill, passing new total through a channel.
@@ -127,6 +135,7 @@ func calculateTotalChanneling(index, runningTotal int, result chan int, skills [
 ///////////////////////////////////////// HigherOrderStudent ///////////////////////////////////////
 
 // Lose objects completely.
+// Expressions rather than statements.
 // Focus on extracting behavior to functions alone.
 // Higher order functions are passed into and returned from other functions.
 
@@ -138,10 +147,14 @@ func LearnGolang(skills []string) int {
 func calculateTotalHigherOrder(skills []string) int {
 	return Reduce(
 		Map(skills, func(string) int {
-			return rand.Intn(50) + 50
+			return getRandomGrade()
 		}), func(oldValue, newValue int) int {
 			return oldValue + newValue
 		})
+}
+
+func getRandomGrade() int {
+	return rand.Intn(50) + 50
 }
 
 //Map and Reduce are higher order functions - they take in other functions as arguments.
