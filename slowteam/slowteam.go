@@ -15,7 +15,7 @@ import (
 /////////////////////////////////// HigherOrderTeam //////////////////////////////////////////
 
 // HigherOrderTeam is meant to be a copy of the best we could do prior, but applied to only
-// 10 students with long-running calculation functions.
+// 5 students with long-running calculation functions.
 
 type HigherOrderTeam struct{}
 

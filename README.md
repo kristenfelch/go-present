@@ -12,6 +12,7 @@ Trends in other languages seem to be introducing more FP concepts
  - Java 7/8 : Lambda functions and Collections Library
  - Birth of Scala : 2004 - Functional Language on the JVM
  - ES6 and Beyond : Map/Reduce/Filter, Arrow functions
+ - Redux/React, immutable data into many languages
  
 ## Brief Overview of Functional Programming
  - A Programming Paradigm

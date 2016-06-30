@@ -5,6 +5,7 @@ import (
 	"github.com/kristenfelch/go-present/monitor"
 	//"github.com/kristenfelch/go-present/slowteam"
 	"github.com/kristenfelch/go-present/team"
+	"github.com/kristenfelch/go-present/slowteam"
 )
 
 /*
@@ -15,7 +16,7 @@ func main() {
 	demo.Decorate(team.OOPTeam{}, monitor.Monitor("OOP Team Average")).Run()
 
 	// Abstracting out some preliminary logic into functions
-	//demo.Decorate(team.FunctioningTeam{}, monitor.Monitor("Functioning Team Average")).Run()
+	demo.Decorate(team.FunctioningTeam{}, monitor.Monitor("Functioning Team Average")).Run()
 
 	// Recursion rather than iteration to maintain immutable data
 	//demo.Decorate(team.RecursiveTeam{}, monitor.Monitor("Recursive Team Average")).Run()
@@ -29,8 +30,8 @@ func main() {
 	// Adding higher order functions to our initial functioning team
 	//demo.Decorate(team.HigherOrderTeam{}, monitor.Monitor("Higher Order Team Average")).Run()
 
-	//demo.Decorate(slowteam.HigherOrderTeam{}, monitor.Monitor("Slow Higher Order Team Average")).Run()
+	demo.Decorate(slowteam.HigherOrderTeam{}, monitor.Monitor("Slow Higher Order Team Average")).Run()
 
-	//demo.Decorate(slowteam.WinningTeam{}, monitor.Monitor("Slow Winning Team Average")).Run()
+	demo.Decorate(slowteam.WinningTeam{}, monitor.Monitor("Slow Winning Team Average")).Run()
 
 }
